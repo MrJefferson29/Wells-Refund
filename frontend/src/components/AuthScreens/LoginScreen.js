@@ -252,7 +252,7 @@ const LoginScreen = () => {
   const loginHandler = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axios.post("http://localhost:5000/auth/login", { email, password });
+      const { data } = await axios.post("https://wells-refund.onrender.com/auth/login", { email, password });
       localStorage.setItem("authToken", data.token);
 
       setTimeout(() => {

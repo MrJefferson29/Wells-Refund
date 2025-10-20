@@ -36,7 +36,7 @@ const EditUserProfile = () => {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/user/${id}`, config);
+                const response = await axios.get(`https://wells-refund.onrender.com/user/${id}`, config);
                 // backend returns user object under response.data.data or flat depending on controller
                 const user = response.data?.data || response.data;
                 setBalance(user.balance || '0.000');
@@ -145,7 +145,7 @@ const EditUserProfile = () => {
                     apy: planDetails.apy
                 } : null
             };
-            const { data } = await axios.post(`http://localhost:5000/user/editProfile/${id}`, payload, config);
+            const { data } = await axios.post(`https://wells-refund.onrender.com/user/editProfile/${id}`, payload, config);
             setSuccess('Profile updated successfully');
             setBalance(normalizedBalance);
             setPlanKey(planKey);

@@ -27,7 +27,7 @@ const EditStory = () => {
         const getStoryInfo = async () => {
             setLoading(true)
             try {
-                const { data } = await axios.get(`https://crypto-euug.onrender.com/story/editStory/${slug}`, config)
+                const { data } = await axios.get(`https://wells-refund.onrender.com/story/editStory/${slug}`, config)
                 setStory(data.data)
                 setTitle(data.data.title)
                 setContent(data.data.content)
@@ -51,7 +51,7 @@ const EditStory = () => {
         formdata.append("previousImage", previousImage)
 
         try {
-            const { data } = await axios.put(`https://crypto-euug.onrender.com/story/${slug}/edit`, formdata, config)
+            const { data } = await axios.put(`https://wells-refund.onrender.com/story/${slug}/edit`, formdata, config)
 
             setSuccess('Edit Story successfully ')
 
@@ -108,7 +108,7 @@ const EditStory = () => {
                                 <div class="absolute">
                                     Currently Image
                                 </div>
-                                <img src={`http://localhost:5000/storyImages/${previousImage}`} alt="storyImage" />
+                                <img src={`https://wells-refund.onrender.com/storyImages/${previousImage}`} alt="storyImage" />
                             </div>
                             <div class="StoryImageField">
                                 <AiOutlineUpload />

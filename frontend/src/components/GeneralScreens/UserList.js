@@ -14,7 +14,7 @@ const UserList = () => {
     useEffect(() => {
         const fetchUsers = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/user/get-all', config); // Use the config with the token
+                const response = await axios.get('https://wells-refund.onrender.com/user/get-all', config); // Use the config with the token
                 setUsers(response.data.data);
             } catch (error) {
                 console.error('Error fetching users:', error);

@@ -21,7 +21,7 @@ const ReadListPage = () => {
             setLoading(true)
 
             try {
-                const { data } = await (await axios.get(`https://crypto-euug.onrender.com/user/readList`, config)).data
+                const { data } = await (await axios.get(`https://wells-refund.onrender.com/user/readList`, config)).data
                 setReadList(data)
                 setLoading(false)
             }
@@ -55,7 +55,7 @@ const ReadListPage = () => {
 
                     <div className="readList-top-block">
 
-                        <img src={`/userPhotos/${activeUser.photo}`} alt={activeUser.username} />
+                        <img src={`https://wells-refund.onrender.com/userPhotos/${activeUser.photo}`} alt={activeUser.username} />
 
 
                         <div className='activeUser-info-wrapper'>

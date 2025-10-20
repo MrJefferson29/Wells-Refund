@@ -28,7 +28,7 @@ const DetailStory = () => {
       setLoading(true)
       var activeUser = {}
       try {
-        const { data } = await axios.get("https://crypto-euug.onrender.com/auth/private", {
+        const { data } = await axios.get("https://wells-refund.onrender.com/auth/private", {
           headers: {
             "Content-Type": "application/json",
             authorization: `Bearer ${localStorage.getItem("authToken")}`,
@@ -44,7 +44,7 @@ const DetailStory = () => {
       }
 
       try {
-        const { data } = await axios.post(`https://crypto-euug.onrender.com/story/${slug}`, { activeUser })
+        const { data } = await axios.post(`https://wells-refund.onrender.com/story/${slug}`, { activeUser })
         setStory(data.data)
         setLikeStatus(data.likeStatus)
         setLikeCount(data.data.likeCount)
@@ -84,7 +84,7 @@ const DetailStory = () => {
     }, 1500)
 
     try {
-      const { data } = await axios.post(`https://crypto-euug.onrender.com/story/${slug}/like`, { activeUser }, {
+      const { data } = await axios.post(`https://wells-refund.onrender.com/story/${slug}/like`, { activeUser }, {
         headers: {
           "Content-Type": "application/json",
           authorization: `Bearer ${localStorage.getItem("authToken")}`,
@@ -109,7 +109,7 @@ const DetailStory = () => {
 
       try {
 
-        await axios.delete(`https://crypto-euug.onrender.com/story/${slug}/delete`, {
+        await axios.delete(`https://wells-refund.onrender.com/story/${slug}/delete`, {
           headers: {
             "Content-Type": "application/json",
             authorization: `Bearer ${localStorage.getItem("authToken")}`,
@@ -139,7 +139,7 @@ const DetailStory = () => {
 
     try {
 
-      const { data } = await axios.post(`https://crypto-euug.onrender.com/user/${slug}/addStoryToReadList`, { activeUser }, {
+      const { data } = await axios.post(`https://wells-refund.onrender.com/user/${slug}/addStoryToReadList`, { activeUser }, {
         headers: {
           "Content-Type": "application/json",
           authorization: `Bearer ${localStorage.getItem("authToken")}`,
@@ -174,7 +174,7 @@ const DetailStory = () => {
                   <ul>
                     {story.author &&
                       <li className='story-author-info'>
-                        <img src={`/userPhotos/${story.author.photo}`} alt={story.author.username} />
+                        <img src={`https://wells-refund.onrender.com/userPhotos/${story.author.photo}`} alt={story.author.username} />
                         <span className='story-author-username'>{story.author.username}  </span>
                       </li>
                     }
@@ -234,7 +234,7 @@ const DetailStory = () => {
               <div className='story-content' >
 
                 <div className="story-banner-img">
-                  <img src={`/storyImages/${story.image}`} alt={story.title} />
+                  <img src={`https://wells-refund.onrender.com/storyImages/${story.image}`} alt={story.title} />
 
                 </div>
 

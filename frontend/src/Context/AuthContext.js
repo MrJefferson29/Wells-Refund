@@ -16,7 +16,7 @@ const AuthContextProvider = (props) => {
   useEffect(() => {
     const controlAuth = async () => {
       try {
-        const { data } = await axios.get("http://localhost:5000/auth/private", config);
+        const { data } = await axios.get("https://wells-refund.onrender.com/auth/private", config);
         setActiveUser(data.user);  // Set the user if authenticated
       } catch (error) {
         localStorage.removeItem("authToken");

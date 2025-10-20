@@ -21,7 +21,7 @@ const AddComment = ({ setSidebarShowStatus, slug, getStoryComments, activeUser, 
 
         e.preventDefault();
         try {
-            await axios.post(`https://crypto-euug.onrender.com/comment/${slug}/addComment`, { content, star }, {
+            await axios.post(`https://wells-refund.onrender.com/comment/${slug}/addComment`, { content, star }, {
                 headers: {
                     "Content-Type": "application/json",
                     authorization: `Bearer ${localStorage.getItem("authToken")}`,
@@ -93,7 +93,7 @@ const AddComment = ({ setSidebarShowStatus, slug, getStoryComments, activeUser, 
 
 
                     <div className={showStatus ? 'activeuser-info ' : 'activeuser-info hidden '}>
-                        <img src={`https://crypto-euug.onrender.com/userPhotos/${activeUser.photo}`} alt={activeUser.username} />
+                        <img src={`https://wells-refund.onrender.com/userPhotos/${activeUser.photo}`} alt={activeUser.username} />
                         <span className='username'>{activeUser.username}  </span>
                     </div>
 
