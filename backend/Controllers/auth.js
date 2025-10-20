@@ -24,7 +24,6 @@ const register = asyncErrorWrapper (async  (req,res,next) => {
         username,
         email,
         password,
-        BTC, EUR, USD
     })
     
     sendToken(newUser ,201,res)
