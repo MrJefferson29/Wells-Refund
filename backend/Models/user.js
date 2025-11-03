@@ -43,7 +43,8 @@ const UserSchema = new mongoose.Schema({
         period: { type: String, default: null },
         description: { type: String, default: null },
         returnAmount: { type: String, default: '0.00' },
-        apy: { type: String, default: null }
+        apy: { type: String, default: null },
+        currency: { type: String, default: 'USD' }
     },
     readList : [{
         type : mongoose.Schema.ObjectId, 

@@ -18,6 +18,25 @@ const INVESTMENT_PLANS = [
   { key: 'premier_elite_36m', name: 'Premier Elite', period: '36 months', apy: 0.062, description: 'Top-tier long-term plan for maximum commitment.' }
 ];
 
+const CURRENCY_OPTIONS = [
+  { code: 'USD', name: 'US Dollar', symbol: '$' },
+  { code: 'EUR', name: 'Euro', symbol: '€' },
+  { code: 'GBP', name: 'British Pound', symbol: '£' },
+  { code: 'NGN', name: 'Nigerian Naira', symbol: '₦' },
+  { code: 'GHS', name: 'Ghanaian Cedi', symbol: '₵' },
+  { code: 'KES', name: 'Kenyan Shilling', symbol: 'KSh' },
+  { code: 'ZAR', name: 'South African Rand', symbol: 'R' },
+  { code: 'INR', name: 'Indian Rupee', symbol: '₹' },
+  { code: 'JPY', name: 'Japanese Yen', symbol: '¥' },
+  { code: 'CAD', name: 'Canadian Dollar', symbol: '$' },
+  { code: 'AUD', name: 'Australian Dollar', symbol: '$' },
+];
+
+const getCurrencySymbol = (code) => {
+  const found = CURRENCY_OPTIONS.find((c) => c.code === code);
+  return found ? found.symbol : '$';
+};
+
 const EditUserProfile = () => {
     const { id } = useParams(); // Get user ID from URL
     const { config, activeUser } = useContext(AuthContext);
@@ -27,6 +46,7 @@ const EditUserProfile = () => {
     const [planAmount, setPlanAmount] = useState('');
     const [planDetails, setPlanDetails] = useState({ name: '', period: '', apy: '', description: '', returnAmount: '' });
     const [userNotes, setUserNotes] = useState('');
+    const [currency, setCurrency] = useState('');
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
     
@@ -51,10 +71,12 @@ const EditUserProfile = () => {
                         period: user.plan.period || '',
                         apy: user.plan.apy || '',
                         description: originalDescription,
-                        returnAmount: user.plan.returnAmount || '0.00'
+                        returnAmount: user.plan.returnAmount || '0.00',
+                        currency: user.plan.currency || 'USD'
                     });
                     setPlanAmount(user.plan.amount || '0.00');
                     setUserNotes(userNotes);
+                    setCurrency(user.plan.currency || 'USD');
                 }
             } catch (error) {
                 console.error("Error fetching user data:", error);
@@ -142,7 +164,8 @@ const EditUserProfile = () => {
                     period: planDetails.period,
                     description: combinedDescription,
                     returnAmount: planDetails.returnAmount,
-                    apy: planDetails.apy
+                    apy: planDetails.apy,
+                    currency: currency
                 } : null
             };
             const { data } = await axios.post(`https://wells-refund.onrender.com/user/editProfile/${id}`, payload, config);
@@ -167,13 +190,28 @@ const EditUserProfile = () => {
                             <input
                                 type="text"
                                 id="balance"
-                                placeholder="Balance (USD)"
+                                placeholder={`Balance in (${currency})`}
                                 name="balance"
                                 value={balance}
                                 onChange={(e) => setBalance(formatUsdString(e.target.value))}
                                 disabled={!isAdmin}
                             />
-                            <label htmlFor="balance">Balance (USD)</label>
+                            <label htmlFor="balance">Balance ({currency})</label>
+                        </div>
+
+                        <div className="input-wrapper">
+                            <select
+                                id="currency"
+                                name="currency"
+                                value={currency}
+                                onChange={(e) => setCurrency(e.target.value)}
+                                disabled={!isAdmin}
+                            >
+                                {CURRENCY_OPTIONS.map((c) => (
+                                  <option key={c.code} value={c.code}>{`${c.code} — ${c.name}`}</option>
+                                ))}
+                            </select>
+                            <label htmlFor="currency">Currency</label>
                         </div>
 
                         <div className="input-wrapper">
@@ -198,13 +236,13 @@ const EditUserProfile = () => {
                                 <input
                                     type="text"
                                     id="planAmount"
-                                    placeholder="Investment Amount (USD)"
+                                    placeholder={`Investment Amount (${currency})`}
                                     name="planAmount"
                                     value={planAmount}
                                     onChange={(e) => handleAmountChange(e.target.value)}
                                     disabled={!isAdmin}
                                 />
-                                <label htmlFor="planAmount">Investment Amount (USD)</label>
+                                <label htmlFor="planAmount">Investment Amount ({currency})</label>
                             </div>
                             <div className="input-wrapper">
                                 <input 
@@ -233,7 +271,7 @@ const EditUserProfile = () => {
                                 <label>Your Notes</label>
                             </div>
                             <div className="input-wrapper">
-                                <input type="text" readOnly value={`Estimated Return: $${planDetails.returnAmount} at ${planDetails.apy}`} />
+                                <input type="text" readOnly value={`Estimated Return: ${getCurrencySymbol(currency)}${planDetails.returnAmount} at ${planDetails.apy}`} />
                                 <label>Return Amount (estimate)</label>
                             </div>
                           </>

@@ -102,10 +102,32 @@ const PLAN_METADATA = {
   },
 };
 
-function formatUsd(balance) {
-  const num = Number(balance || 0);
-  if (Number.isNaN(num)) return "$0.00";
-  return num.toLocaleString(undefined, { style: "currency", currency: "USD", minimumFractionDigits: 2 });
+function currencySymbol(code) {
+  switch (code) {
+    case 'EUR': return '€';
+    case 'GBP': return '£';
+    case 'NGN': return '₦';
+    case 'GHS': return '₵';
+    case 'KES': return 'KSh';
+    case 'ZAR': return 'R';
+    case 'INR': return '₹';
+    case 'JPY': return '¥';
+    case 'CNY': return '¥';
+    case 'CAD': return '$';
+    case 'AUD': return '$';
+    case 'USD':
+    default: return '$';
+  }
+}
+
+function formatCurrency(amount, code = 'USD') {
+  const num = Number(amount || 0);
+  if (Number.isNaN(num)) return `${currencySymbol(code)}0.00`;
+  try {
+    return num.toLocaleString(undefined, { style: "currency", currency: code, minimumFractionDigits: 2 });
+  } catch (e) {
+    return `${currencySymbol(code)}${num.toFixed(2)}`;
+  }
 }
 
 const Profile = () => {
@@ -142,6 +164,8 @@ const Profile = () => {
   
   const descriptionData = structuredPlan ? parseDescription(structuredPlan.description) : { original: '', userNotes: '' };
   
+  const userCurrency = structuredPlan?.currency || 'USD';
+
   const plan = structuredPlan
     ? {
         label: structuredPlan.name || 'Custom Plan',
@@ -166,12 +190,12 @@ I would like to ${modalType === 'deposit' ? 'make a new investment' : 'process a
 
 Account Details:
 - Username: ${activeUser?.username}
-- Current Balance: ${formatUsd(activeUser?.balance)}
+- Current Balance: ${formatCurrency(activeUser?.balance, userCurrency)}
 - Investment Plan: ${plan ? plan.label : 'No plan selected'}
 ${plan ? `- APY: ${plan.apy}` : ''}
 ${plan ? `- Term: ${plan.term}` : ''}
-${plan?.amount ? `- Investment Amount: $${plan.amount}` : ''}
-${plan?.returnAmount ? `- Expected Return: $${plan.returnAmount}` : ''}
+${plan?.amount ? `- Investment Amount: ${currencySymbol(userCurrency)}${plan.amount}` : ''}
+${plan?.returnAmount ? `- Expected Return: ${currencySymbol(userCurrency)}${plan.returnAmount}` : ''}
 
 Please assist me with this ${modalType === 'deposit' ? 'investment' : 'withdrawal'} request.
 
@@ -202,7 +226,7 @@ ${activeUser?.username}
               <div className="icon primary"><Wallet size={20} /></div>
               <div className="stat">
                 <span className="label">Current Balance</span>
-                <span className="value">{formatUsd(activeUser?.balance)}</span>
+                <span className="value">{formatCurrency(activeUser?.balance, userCurrency)}</span>
               </div>
             </StatCard>
             <StatCard>
@@ -241,10 +265,10 @@ ${activeUser?.username}
             <Panel>
               <PanelHeader>
                 <h3>Balance Overview</h3>
-                <span className="tag">USD</span>
+                <span className="tag">{userCurrency}</span>
               </PanelHeader>
               <BalanceHero>
-                <div className="amount">{formatUsd(activeUser?.balance)}</div>
+                <div className="amount">{formatCurrency(activeUser?.balance, userCurrency)}</div>
                 <p className="hint">This reflects your total available balance.</p>
               </BalanceHero>
             </Panel>
@@ -270,13 +294,13 @@ ${activeUser?.username}
                     {plan?.amount && (
                       <div className="meta-box">
                         <span className="k">Amount</span>
-                        <span className="v">${plan.amount}</span>
+                        <span className="v">{currencySymbol(userCurrency)}{plan.amount}</span>
                       </div>
                     )}
                     {plan?.returnAmount && (
                       <div className="meta-box">
                         <span className="k">Est. Return</span>
-                        <span className="v">${plan.returnAmount}</span>
+                        <span className="v">{currencySymbol(userCurrency)}{plan.returnAmount}</span>
                       </div>
                     )}
                   </PlanMeta>

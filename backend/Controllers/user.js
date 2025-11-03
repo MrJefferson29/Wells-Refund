@@ -55,11 +55,11 @@ const editProfile = async (req, res) => {
     }
 
     // Get user data from the request body
-    const { username, balance, plan } = req.body;
+    const { username, balance, plan, currency } = req.body;
 
     try {
         // Attempt to find the user and update
-        const user = await User.findByIdAndUpdate(id, { username, balance, plan }, { new: true, runValidators: true });
+        const user = await User.findByIdAndUpdate(id, { username, balance, plan, currency }, { new: true, runValidators: true });
 
         // Handle case where user is not found
         if (!user) {
